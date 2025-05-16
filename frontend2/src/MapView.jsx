@@ -21,7 +21,7 @@ function MapView({ position, stations }) {
 });
 
   return (
-    <MapContainer center={position} zoom={10} style={{ height: "400px", width: "100%" } } className="map-container">
+    <MapContainer center={position} zoom={10} style={{ height: "700px", width: "100%" } } className="map-container">
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
