@@ -11,7 +11,7 @@ router = APIRouter()
 
 @router.get("/air-quality")
 def air_quality_from_ip(requests: Request):
-    raw_ip = requests.client.host
+    raw_ip = get_client_ip(requests)
     ip = raw_ip if raw_ip != "127.0.0.1" else ""
 
     location = ip_to_location(ip)
@@ -45,7 +45,7 @@ def air_quality_from_city():
 
 @router.get("/world")
 def world_data(requests: Request):
-    raw_ip = requests.client.host
+    raw_ip = get_client_ip(requests)
     ip = raw_ip if raw_ip != "127.0.0.1" else ""
 
     location = ip_to_location(ip)
@@ -103,7 +103,7 @@ def world_data(requests: Request):
 
 @router.get("/daily-values")
 def all_station_data(requests: Request):
-    raw_ip = requests.client.host
+    raw_ip = get_client_ip(requests)
     ip = raw_ip if raw_ip != "127.0.0.1" else ""
 
     location = ip_to_location(ip)
@@ -157,3 +157,8 @@ def all_station_data(requests: Request):
         "stations": results
     }
 
+def get_client_ip(request: Request):
+    x_forwarded_for = request.headers.get("x-forwarded-for")
+    if x_forwarded_for:
+        return x_forwarded_for.split(",")[0]
+    return request.client.host
