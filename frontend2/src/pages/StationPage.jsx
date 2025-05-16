@@ -53,14 +53,16 @@ function StationPage() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Luftqualität in {station.station}</h1>
-
-      <Line data={chartData} />
-      <Bar data={chartData} />
-
-      {/* Weitere Tabellen usw. */}
+      <div className="container py-5">
+        <h1 className="display-5 mb-4">Luftqualität in {station.station}</h1>
+          <div className="chart-container">
+            <Line data={chartData} />
+          </div>
+          <div className="chart-container">
+            <Bar data={chartData} />
+          </div>
     </div>
+
   );
 }
 
