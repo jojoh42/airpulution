@@ -54,19 +54,26 @@ function MapView({ position, stations }) {
         if (!coords || !isWithinRadius(coords)) return null;
 
         return (
-          <Marker
-            key={index}
-            position={[coords.latitude, coords.longitude]}
-            icon={stationIcon}
-          >
-            <Popup>
-              <div>
-                <strong>{station.station}</strong><br />
-                <a href={`/station/${encodeURIComponent(station.station)}`}>PM2.5: {station.pm25[0]?.summary?.mean ?? station.pm25[0]?.value ?? "-"} µg/m³</a><br />
-                <a href={`/station/${encodeURIComponent(station.station)}`}>PM10: {station.pm10[0]?.summary?.mean ?? station.pm25[0]?.value ?? "-"} µg/m³</a>
-              </div>
-            </Popup>
-          </Marker>
+            <div className="map-legend">
+              <Marker
+                key={index}
+                position={[coords.latitude, coords.longitude]}
+                icon={stationIcon}
+              >
+                <Popup>
+                  <div>
+                    <strong>{station.station}</strong><br />
+                    <a href={`/station/${encodeURIComponent(station.station)}`}>PM2.5: {station.pm25[0]?.summary?.mean ?? station.pm25[0]?.value ?? "-"} µg/m³</a><br />
+                    <a href={`/station/${encodeURIComponent(station.station)}`}>PM10: {station.pm10[0]?.summary?.mean ?? station.pm25[0]?.value ?? "-"} µg/m³</a>
+                  </div>
+                </Popup>
+              </Marker>
+
+                <h4>Legende</h4>
+              <div><img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png" alt="Du" /> Deine Position</div>
+              <div><img src="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png" alt="Station" /> Luftmessstation</div>
+              <div><span className="legend-circle"></span> Suchradius (5 km)</div>
+            </div>
         );
       })}
     </MapContainer>
