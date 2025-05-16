@@ -106,7 +106,7 @@ def fetch_world_station_data(sensor_id: int):
     headers = {"X-API-Key": API_KEY}
     sensor_cache = {}
 
-    params = {"sensor_id": sensor_id,"limit": 10, "order_by": "datetime", "datetime_to": to_date.isoformat()}
+    params = {"sensor_id": sensor_id,"limit": 2, "order_by": "datetime", "datetime_to": to_date.isoformat()}
 
     print(params)
 
