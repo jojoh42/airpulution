@@ -34,12 +34,17 @@ async def shutdown_event():
 app.include_router(router, prefix="/api")
 
 # Pfad zum React-Frontend-Build
-frontend_path = Path(__file__).parent.parent / "frontend2" / "src"
+frontend_path = Path(__file__).parent.parent / "frontend2" / "dist"
 
-# Statische Dateien für React (JS, CSS)
+# Statische Dateien für React (JS, CSS, etc.)
 app.mount("/assets", StaticFiles(directory=frontend_path / "assets"), name="assets")
+app.mount("/static", StaticFiles(directory=frontend_path), name="static")
 
 # Alle anderen Routen liefern index.html (für React-Routing)
-@app.get("/{path}")
-async def serve_frontend():
-    return FileResponse("index.html")
+@app.get("/{path:path}")
+async def serve_frontend(path: str):
+    index_file = frontend_path / "index.html"
+    if index_file.exists():
+        return FileResponse(index_file)
+    else:
+        return {"error": "index.html not found"}
