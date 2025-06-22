@@ -19,7 +19,7 @@ yesterday = datetime.utcnow().date() - timedelta(days=1)
 
 def fetch_sensor_data(sensor_id):
     try:
-        return sensor_id, fetch_world_station_data(sensor_id, date=yesterday)
+        return sensor_id, fetch_world_station_data(sensor_id, date_param=yesterday)
     except Exception as e:
         print(f"[ERROR] Fehler bei Sensor {sensor_id}: {e}")
         return sensor_id, []

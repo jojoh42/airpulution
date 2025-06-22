@@ -8,7 +8,7 @@ function Navbar() {
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/world">Weltweit</Link>
+              <Link className="nav-link" to="/direct">Direkte Luftqualität</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/about">Über</Link>
