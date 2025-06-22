@@ -11,12 +11,12 @@ app = FastAPI()
 app.include_router(api.router, prefix="/api")
 
 # Pfad zum React-Frontend-Build
-frontend_path = Path(__file__).parent.parent / "frontend2" / "dist"
+frontend_path = Path(__file__).parent.parent / "frontend2" / "src"
 
 # Statische Dateien für React (JS, CSS)
 app.mount("/assets", StaticFiles(directory=frontend_path / "assets"), name="assets")
 
 # Alle anderen Routen liefern index.html (für React-Routing)
-@app.get("/{full_path:path}")
-async def serve_frontend(full_path: str):
-    return FileResponse(frontend_path / "index.html")
+@app.get("/{path}")
+async def serve_frontend():
+    return FileResponse("index.html")

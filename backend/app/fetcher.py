@@ -100,15 +100,22 @@ def fetch_world_data(limit=100, max_pages=3):
 
     return all_results
 
-def fetch_world_station_data(sensor_id: int):
-    to_date = datetime.utcnow().date()
+def fetch_world_station_data(sensor_id: int, date: datetime.date = None):
     url = f"https://api.openaq.org/v3/sensors/{sensor_id}/measurements"
     headers = {"X-API-Key": API_KEY}
     sensor_cache = {}
 
-    params = {"sensor_id": sensor_id,"limit": 2, "order_by": "datetime", "datetime_to": to_date.isoformat()}
+    if date is None:
+        date = datetime.utcnow().date() - timedelta(days=1)
 
-    print(params)
+    params = {
+        "sensor_id": sensor_id,
+        "limit": 2,
+        "order_by": "datetime",
+        "datetime_to": date.isoformat()
+    }
+
+    print(f"[FETCH] Sensor {sensor_id} mit Parametern: {params}")
 
     try:
         response = requests.get(url, headers=headers, params=params, timeout=10)
@@ -124,5 +131,6 @@ def fetch_world_station_data(sensor_id: int):
         return results
     except Exception as e:
         print(f"Fehler bei Messwerten für Sensor {sensor_id}:", e)
-    return response.json().get("results", [])
+        return []
+
 
