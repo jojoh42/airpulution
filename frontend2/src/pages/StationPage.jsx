@@ -13,6 +13,7 @@ import {
   BarElement
 } from 'chart.js';
 import { Line, Bar } from "react-chartjs-2";
+import { API_BASE } from '../config';
 import "./StationPage.css";
 
 // Registriere benötigte Chart-Komponenten
@@ -36,8 +37,8 @@ function StationPage() {
     
     try {
       const endpoint = useDirectAPI 
-        ? `/api/station/${encodeURIComponent(decodedName)}`
-        : "/api/daily-values";
+        ? `${API_BASE}/station/${encodeURIComponent(decodedName)}`
+        : `${API_BASE}/daily-values`;
       
       const response = await axios.get(endpoint);
       setData(response.data);

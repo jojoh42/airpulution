@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { API_BASE } from '../config';
 
 export default function DirectFetcherTest() {
   const [lat, setLat] = useState("");
@@ -26,7 +27,7 @@ export default function DirectFetcherTest() {
         params.append('city', city);
       }
 
-      const response = await axios.get(`/api/direct-air-quality?${params}`);
+      const response = await axios.get(`${API_BASE}/direct-air-quality?${params}`);
       setResult(response.data);
     } catch (err) {
       console.error("Test error:", err);

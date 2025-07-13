@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { API_BASE } from '../config';
 
 export default function CacheManager() {
   const [stats, setStats] = useState(null);
@@ -8,7 +9,7 @@ export default function CacheManager() {
 
   const fetchStats = async () => {
     try {
-      const response = await axios.get('/api/cache/stats');
+      const response = await axios.get(`${API_BASE}/cache/stats`);
       setStats(response.data);
     } catch (err) {
       console.error("Error fetching cache stats:", err);
@@ -23,7 +24,7 @@ export default function CacheManager() {
 
     setLoading(true);
     try {
-      await axios.delete('/api/cache/clear');
+      await axios.delete(`${API_BASE}/cache/clear`);
       setStats(null);
       alert("Cache erfolgreich gelöscht!");
     } catch (err) {

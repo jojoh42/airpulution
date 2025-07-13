@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import MapView, { MapLegend } from "../MapView.jsx";
 import BackgroundUpdater from "../components/BackgroundUpdater.jsx";
+import { API_BASE } from '../config';
 import "./Home.css";
 
 export default function Home() {
@@ -50,7 +51,7 @@ export default function Home() {
     setError(null);
     
     try {
-      const endpoint = useDirectAPI ? "/api/direct-air-quality" : "/api/daily-values";
+      const endpoint = useDirectAPI ? `${API_BASE}/direct-air-quality` : `${API_BASE}/daily-values`;
       const params = useDirectAPI 
         ? { lat: userLocation.lat, lon: userLocation.lon }
         : {};

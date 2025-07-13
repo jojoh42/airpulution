@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './BackgroundUpdater.css';
+import { API_BASE } from '../config';
 
 const BackgroundUpdater = () => {
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
-
-  const API_BASE = 'http://localhost:8000/api';
 
   useEffect(() => {
     fetchStatus();
@@ -17,11 +16,23 @@ const BackgroundUpdater = () => {
 
   const fetchStatus = async () => {
     try {
-      const response = await fetch(`${API_BASE}/background/status`);
+      const response = await fetch(`${API_BASE}/background/status`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
       setStatus(data);
     } catch (error) {
       console.error('Error fetching background status:', error);
+      // Don't show error to user, just log it
     }
   };
 
@@ -30,11 +41,21 @@ const BackgroundUpdater = () => {
     try {
       const response = await fetch(`${API_BASE}/background/start`, {
         method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
       });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
       setMessage(data.message);
       fetchStatus();
     } catch (error) {
+      console.error('Error starting background updates:', error);
       setMessage('Error starting background updates');
     } finally {
       setLoading(false);
@@ -46,11 +67,21 @@ const BackgroundUpdater = () => {
     try {
       const response = await fetch(`${API_BASE}/background/stop`, {
         method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
       });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
       setMessage(data.message);
       fetchStatus();
     } catch (error) {
+      console.error('Error stopping background updates:', error);
       setMessage('Error stopping background updates');
     } finally {
       setLoading(false);
@@ -62,11 +93,21 @@ const BackgroundUpdater = () => {
     try {
       const response = await fetch(`${API_BASE}/background/force-update?city_name=${cityName}&lat=${lat}&lon=${lon}`, {
         method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
       });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
       setMessage(data.message);
       fetchStatus();
     } catch (error) {
+      console.error('Error force updating city:', error);
       setMessage('Error force updating city');
     } finally {
       setLoading(false);
@@ -83,7 +124,14 @@ const BackgroundUpdater = () => {
   };
 
   if (!status) {
-    return <div className="background-updater">Loading background updater status...</div>;
+    return (
+      <div className="background-updater">
+        <div className="loading-status">
+          <div className="spinner"></div>
+          <p>Loading background updater status...</p>
+        </div>
+      </div>
+    );
   }
 
   return (

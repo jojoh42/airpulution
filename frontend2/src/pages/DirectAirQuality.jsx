@@ -4,6 +4,7 @@ import MapView from "../MapView.jsx";
 import DirectFetcherTest from "../components/DirectFetcherTest.jsx";
 import CacheManager from "../components/CacheManager.jsx";
 import BackgroundUpdater from '../components/BackgroundUpdater';
+import { API_BASE } from '../config';
 import './DirectAirQuality.css';
 
 const DirectAirQuality = () => {
@@ -13,8 +14,6 @@ const DirectAirQuality = () => {
   const [location, setLocation] = useState(null);
   const [searchCity, setSearchCity] = useState('');
   const [showBackgroundUpdater, setShowBackgroundUpdater] = useState(false);
-
-  const API_BASE = 'http://localhost:8000/api';
 
   useEffect(() => {
     getCurrentLocation();
@@ -147,13 +146,16 @@ const DirectAirQuality = () => {
         <button 
           onClick={() => setShowBackgroundUpdater(!showBackgroundUpdater)}
           className="btn btn-info"
+          title="Show/hide background data updater controls"
         >
           {showBackgroundUpdater ? '🔽 Hide' : '🔄 Show'} Background Updater
         </button>
       </div>
 
       {showBackgroundUpdater && (
-        <BackgroundUpdater />
+        <div className="background-updater-container">
+          <BackgroundUpdater />
+        </div>
       )}
 
       {loading && (
